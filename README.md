@@ -1,77 +1,18 @@
-# 停止一台实例文档示例
+# 自动停止空闲的服务器
 
-该项目为实例从停止中（Stopping）变成已停止（Stopped）状态。文档示例，该示例**无法在线调试**，如需调试可下载到本地后替换 [AK](https://usercenter.console.aliyun.com/#/manage/ak) 以及参数后进行调试。
+## 快速开始
 
-## 运行条件
+在项目根目录下新增 .env 文件配置如下
 
-- 下载并解压需要语言的代码;
-
-- 在阿里云帐户中获取您的 [凭证](https://usercenter.console.aliyun.com/#/manage/ak)并通过它替换下载后代码中的 ACCESS_KEY_ID 以及 ACCESS_KEY_SECRET;
-
-- 执行对应语言的构建及运行语句
-
-## 执行步骤
-下载的代码包，在根据自己需要更改代码中的参数和 AK 以后，可以在**解压代码所在目录下**按如下的步骤执行
-
-- Java
-*JDK 版本要求 1.8*
-```sh
-mvn clean package
-java -jar target/sample-1.0.0-jar-with-dependencies.jar
+```env
+accessKeyId="你的阿里云  accessKeyId"
+accessKeySecret="你的阿里云  accessKeySecret"
 ```
 
-- TypeScript
-*Node 版本要求 10.x 及以上*
-```sh
-npm install --registry=https://registry.npm.taobao.org && tsc && node ./dist/client.js
-```
+由于目前仅为自用，且不打算完善为通用项目，所以请自行修改 ./src/dns.ts 和 ./src/ecs.ts 中相关的 地域、id 等信息
 
-- Go
-*Golang 版本要求 1.13 及以上*
-```sh
-GOPROXY=https://goproxy.cn,direct go run ./main
-```
+## 特性
 
-- PHP
-*PHP 版本要求 7.2 及以上*
-```sh
-composer install && php src/Sample.php
-```
-
-- Python
-*Python 版本要求 Python3*
-```sh
-python3 setup.py install && python ./alibabacloud_sample/sample.py
-```
-
-- C#
-*.NETCORE 版本要求 2.1及以上*
-```sh
-cd ./core && dotnet run
-```
-
-## 使用的 API
-
--  StopInstance 实例从停止中（Stopping）变成已停止（Stopped）状态。文档示例，可以参考：[文档](https://next.api.aliyun.com/document/Ecs/2014-05-26/StopInstance)
-
-
-
-## 返回示例
-
-*实际输出结构可能稍有不同，属于正常返回；下列输出值仅作为参考，以实际调用为准*
-
-
-- JSON 格式 
-```js
-{
-    "RequestId": "1C488B66-B819-4D14-8711-C4EAAA13AC01"
-}
-```
-- XML 格式 
-```xml
-<StopInstanceResponse>
-    <RequestId>1C488B66-B819-4D14-8711-C4EAAA13AC01</RequestId>
-</StopInstanceResponse>
-```
-
-
+1. 闲置自动停机，在浏览器中打开 7000 端口，该页面每隔一分钟会刷新一次。超过五分钟未刷新则自动停机
+2. 夜间自动停机,在 23点至5点期间，如果没有 ssh 链接即便有 1 发出的刷新请求也会自定停机，这是为了不要熬夜
+3. 开机自动 dns 解析至新 ip ，dns 解析后客户端访问可能还是会有缓存，建议刷新一下
