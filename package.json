@@ -1,0 +1,38 @@
+{
+  "name": "auto_stop_dev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/client.js",
+  "scripts": {
+    "test": "mocha --reporter spec --timeout 3000 test/*.test.js",
+    "test-cov": "nyc -e .ts -r=html -r=text -r=lcov npm run test",
+    "build": "tsc",
+    "start": "ts-node ./src/client.ts",
+    "prepublishOnly": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^12.12.26",
+    "cross-env": "^7.0.3",
+    "nyc": "^15.0.0",
+    "source-map-support": "^0.5.16",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@alicloud/alidns20150109": "^2.0.1",
+    "@alicloud/ecs20140526": "2.1.0",
+    "@alicloud/openapi-client": "^0.3.0",
+    "@alicloud/tea-console": "^1.0.0",
+    "@alicloud/tea-typescript": "latest",
+    "@alicloud/tea-util": "^1.4.0",
+    "@types/shelljs": "^0.8.9",
+    "dotenv": "^10.0.0",
+    "shelljs": "^0.8.4"
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
+}

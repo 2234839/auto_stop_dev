@@ -1,0 +1,4 @@
+/node_modules
+
+# 密码配置文件不宜公开
+.env
