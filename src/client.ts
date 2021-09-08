@@ -22,7 +22,7 @@ const main = async () => {
         );
       });
     } else {
-      console.log("公网 ip 与 dns 解析记录值相同");
+      console.log("公网 ip 与 dns 解析记录值相同", publicIp);
     }
   }
   if (Date.now() - StartupTime < 8 * 60_000) {

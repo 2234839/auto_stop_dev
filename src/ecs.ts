@@ -30,7 +30,12 @@ export default class EcsClient {
     return new Ecs20140526(config);
   }
   static getClient() {
-    return EcsClient.createClient(config.accessKeyId, config.accessKeySecret);
+    const client = EcsClient.createClient(
+      config.accessKeyId,
+      config.accessKeySecret
+    );
+    client._readTimeout = 6000;
+    return client;
   }
   /** 关闭当前实例 */
   static async StopCharging(): Promise<void> {

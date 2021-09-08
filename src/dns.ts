@@ -26,6 +26,8 @@ export default class DnsClient {
     });
     // 访问的域名
     config.endpoint = "alidns.cn-hangzhou.aliyuncs.com";
+    const client = new Alidns20150109(config);
+    client._readTimeout = 6000;
     return new Alidns20150109(config);
   }
 
@@ -61,7 +63,7 @@ export default class DnsClient {
   }
   /** 获取当前 dns 解析所指向的 ip */
   static async getDnsIp() {
-    const info =await DnsClient.describeDomainRecordInfo()
-    return info.body.value
+    const info = await DnsClient.describeDomainRecordInfo();
+    return info.body.value;
   }
 }
