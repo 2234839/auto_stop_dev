@@ -24,18 +24,17 @@ export default class EcsClient {
       accessKeyId: accessKeyId,
       // 您的AccessKey Secret
       accessKeySecret: accessKeySecret,
+      readTimeout:12000
     });
     // 访问的域名
     config.endpoint = "ecs-cn-hangzhou.aliyuncs.com";
     return new Ecs20140526(config);
   }
   static getClient() {
-    const client = EcsClient.createClient(
+    return EcsClient.createClient(
       config.accessKeyId,
       config.accessKeySecret
     );
-    client._readTimeout = 6000;
-    return client;
   }
   /** 关闭当前实例 */
   static async StopCharging(): Promise<void> {

@@ -14,7 +14,8 @@ const main = async () => {
       try {
         await SyncDnsIp();
         sync = true;
-      } finally {
+      } catch (e) {
+        console.log("查询dns失败", e.message);
       }
     }
   }

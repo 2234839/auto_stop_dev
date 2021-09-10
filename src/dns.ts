@@ -23,11 +23,10 @@ export default class DnsClient {
       accessKeyId: accessKeyId,
       // 您的AccessKey Secret
       accessKeySecret: accessKeySecret,
+      readTimeout:12000
     });
     // 访问的域名
     config.endpoint = "alidns.cn-hangzhou.aliyuncs.com";
-    const client = new Alidns20150109(config);
-    client._readTimeout = 6000;
     return new Alidns20150109(config);
   }
 
