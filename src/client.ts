@@ -9,20 +9,13 @@ const StartupTime = Date.now();
 const main = async () => {
   if (FirstRun) {
     FirstRun = false;
-    const [publicIp, dnsIp] = await Promise.all([
-      EcsClient.getPublicIp(),
-      DnsClient.getDnsIp(),
-    ]);
-    if (publicIp !== dnsIp) {
-      console.log("publicIp dnsIp 不相等", publicIp, dnsIp);
-      DnsClient.updateDomainRecord({ value: publicIp }).then((r) => {
-        console.log(
-          "更新解析记录,由于解析记录 ttl 时间限制 建议刷新本地 dns 缓存",
-          r
-        );
-      });
-    } else {
-      console.log("公网 ip 与 dns 解析记录值相同", publicIp);
+    let sync = false;
+    while (sync !== true) {
+      try {
+        await SyncDnsIp();
+        sync = true;
+      } finally {
+      }
     }
   }
   if (Date.now() - StartupTime < 8 * 60_000) {
@@ -47,3 +40,21 @@ const main = async () => {
 };
 main();
 setInterval(main, 10000);
+
+async function SyncDnsIp() {
+  const [publicIp, dnsIp] = await Promise.all([
+    EcsClient.getPublicIp(),
+    DnsClient.getDnsIp(),
+  ]);
+  if (publicIp !== dnsIp) {
+    console.log("publicIp dnsIp 不相等", publicIp, dnsIp);
+    DnsClient.updateDomainRecord({ value: publicIp }).then((r) => {
+      console.log(
+        "更新解析记录,由于解析记录 ttl 时间限制 建议刷新本地 dns 缓存",
+        r
+      );
+    });
+  } else {
+    console.log("公网 ip 与 dns 解析记录值相同", publicIp);
+  }
+}
